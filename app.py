@@ -1,7 +1,6 @@
 from flask import Flask
-app = Flask(__name__)
 
-from Controllers import news_controller
+app = Flask(__name__)
 
 try:
     from Controllers import *
