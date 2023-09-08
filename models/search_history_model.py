@@ -1,6 +1,6 @@
 from sqlalchemy import ForeignKeyConstraint, Table, Column
 from sqlalchemy.sql.sqltypes import Integer, String
-from DbContext.mysql_context import meta, engine
+from DbContext.mysql_context import get_conection, meta
 
 search_history_model = Table(
   "search_history",
@@ -15,4 +15,4 @@ search_history_model = Table(
   )
 )
 
-meta.create_all(engine)
+meta.create_all(get_conection())

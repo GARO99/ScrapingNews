@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column
 from sqlalchemy.sql.sqltypes import Integer, String
-from DbContext.mysql_context import meta, engine
+from DbContext.mysql_context import get_conection, meta
 
 news_pages_model = Table(
   "news_pages", 
@@ -10,4 +10,4 @@ news_pages_model = Table(
   Column("url_news_paper", String(250), nullable=False)
 )
 
-meta.create_all(engine)
+meta.create_all(get_conection())
