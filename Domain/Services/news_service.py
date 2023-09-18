@@ -2,21 +2,33 @@ import bs4 as bs
 import requests
 from urllib.parse import urlparse
 from tqdm import tqdm
-import urllib3
-from DbContext.mysql_context import dbConnection
+from sqlalchemy import exc
+from DbContext.mysql_context import get_conection
 from mappers.news_pages_mapper import new_pages_mapper
 from models.news_pages_model import news_pages_model
 from schemas.news_pages_schema import news_pages_schema
 
 class News_service:  
   def __init__(self):
+    self.dbConnection = None
     self.mapper = new_pages_mapper()
     self.data = []
+    
+  def _connect(self):
+    try:
+      self.dbConnection = get_conection().connect()
+    except exc.SQLAlchemyError as e:
+      print(f"Error al conectar a la base de datos: {e}")
+  
+  def _disconnect(self):
+    self.dbConnection.close()
   
   def get_available_news_papers(self):
-    result = dbConnection.execute(
+    self._connect()
+    result = self.dbConnection.execute(
         news_pages_model.select()
       ).fetchall()
+    self._disconnect()
     
     return self.mapper.map_rows(result)
   

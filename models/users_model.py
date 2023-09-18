@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column
 from sqlalchemy.sql.sqltypes import Integer, String
-from DbContext.mysql_context import meta, engine
+from DbContext.mysql_context import get_conection, meta
 
 users_model = Table(
   "users",
@@ -11,4 +11,4 @@ users_model = Table(
   Column("password", String(64), nullable=False),
 )
 
-meta.create_all(engine)
+meta.create_all(get_conection())
